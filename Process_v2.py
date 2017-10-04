@@ -1,6 +1,7 @@
 import os
 import json
 import urllib.request
+import requests
 import shutil # Need Install posibly
 import PhotoScan
 
@@ -44,6 +45,8 @@ def process(project_id, name):
         i = i + 1
 
     print(str(i) + " Images has been added")
+
+    update_queue =requests.put('http://localhost:8000/selfie/v1/photoscan_queues/update/' + str(project_id), data = {'queue': 'deregister'})
 
     #Get image path as list
     image_list = os.listdir(photo_path)
