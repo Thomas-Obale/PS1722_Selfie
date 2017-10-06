@@ -42,9 +42,9 @@ def addNewProject():
 def deleteProject():
     deleteID = input("What is the ID of the project you want to delete? ")
 
-    post2 = requests.delete('http://192.168.0.100:8000/selfie/v1/projects', data = {'id': deleteID})
+    post2 = requests.delete('http://192.168.0.100:8000/selfie/v1/projects/' + str(deleteID), data = {'id': deleteID})
 
-    print("Project " + deleteID + " has been deleted \n")
+    print (post2.text) 
 
     displayExistingProjects()
 
@@ -79,8 +79,12 @@ def postImages():
             print ('Release initiated')
             sock.sendto(RELEASE.encode('utf-8'), (UDP_IP, UDP_PORT))
 
-            allowCapture = False
+            print ("The project " + projectID + " has been added to the queue for processing..")
+            update_queue =requests.put('http://192.168.0.100:8000/selfie/v1/photoscan_queues/update/' + str(project_id), data = {'queue': 'register'})
+
             print ("Image captured has ended, please select a menu option: ")
+
+            allowCapture = False
     
 
 def mainMenu():    
