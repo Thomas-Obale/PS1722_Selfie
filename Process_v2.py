@@ -65,6 +65,44 @@ def process(project_id, name):
     #Add photos to the chunk
     chunk.addPhotos(path_list)
 
+    
+    #Marker Detection
+    #Detect Markers
+    print("---Detecting Markers---")
+    chunk.detectMarkers(PhotoScan.TargetType.CircularTarget12bit, 60)
+    
+    #Setting distance between the markers
+    #Numbers in chunk.markers[#] are relative to the markers list in the workspace
+    #The index list starts at 0, distance = '' is in metres.
+    print ("Adding the Scale Bars")
+    ab = chunk.addScalebar(chunk.markers[0], chunk.markers[1])
+    ab.reference.distance = 0.10
+    bc = chunk.addScalebar(chunk.markers[1], chunk.markers[2])
+    bc.reference.distance = 0.10
+    cd = chunk.addScalebar(chunk.markers[2], chunk.markers[3])
+    cd.reference.distance = 0.10
+    de = chunk.addScalebar(chunk.markers[3], chunk.markers[4])
+    de.reference.distance = 0.10
+    ae = chunk.addScalebar(chunk.markers[0], chunk.markers[4])
+    ae.reference.distance = 0.10
+    
+    #Setting the location of the markers ((X,Y,Z)) values in metres
+    #Without this there wont be a pentagon shape
+    print ("Setting the location of the markers")
+    chunk.markers[0].reference.location = PhotoScan.Vector((0,0,0.3))
+    chunk.markers[1].reference.location = PhotoScan.Vector((0.3,0,0))
+    chunk.markers[2].reference.location = PhotoScan.Vector((0,0,-0.3))
+    chunk.markers[3].reference.location = PhotoScan.Vector((-0.3,0,0))
+    chunk.markers[4].reference.location = PhotoScan.Vector((0,0,0))
+    
+    #Update user interface during long operations
+    PhotoScan.app.update()
+    
+    #Auto-masking the photo, being applied to all images/cameras when calling the path.
+    #Set tolerance higher to get better masking results
+    print ("Creating auto mask")
+    chunk.importMasks(path='maskpath', source=Photoscan.MaskSourceBackground, operation=Photoscan.MaskOperationReplacement tolerance=100)
+    
     #Update user interface during long operations
     PhotoScan.app.update()
 
