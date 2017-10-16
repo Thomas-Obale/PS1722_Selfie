@@ -69,7 +69,7 @@ while (capture):
 		
                 #Send the file taken to the HTTP directory
                 files = {'url': open(imageTaken, 'rb')}
-                post = requests.post(url, files=files, data = {'category': 'normal'})
+                post = requests.post(url, files=files, data = {'type': 'processing_image'})
 
                 #Print the output from the PHP script and send to manager.py
 		jsonMsg = post.json()
