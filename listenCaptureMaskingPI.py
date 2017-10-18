@@ -7,7 +7,7 @@ BUFFER_SIZE = 1024
 
 CAPTURE_PATH = '/home/pi/Documents/Image/'
 IMG_FORMAT = '.jpg'
-PC_IP = "192.168.0.100"
+PC_IP = "pi3d.scem.ws"
 capture = True
 imageCounter = 1 #used to keep track of images captured
 imageCounterString = ""
@@ -64,7 +64,7 @@ while (capture):
 		
 		sock.sendto(PC_MSG, addr)		
                 #The http directory (where images are POSTed to) is URL
-                url = "http://192.168.0.100:8000/selfie/v1/" + str(projectID) + "/image"
+                url = "http://pi3d.scem.ws/selfie/v1/" + str(projectID) + "/image"
                 print "The HTTP directory is: " + url
 		
                 #Send the file taken to the HTTP directory
@@ -97,7 +97,7 @@ while (capture):
 		maskDirectory = CAPTURE_PATH + "mask" + "P_ID" + projectID + IMG_FORMAT
 		camera.capture(maskDirectory)
 		
-		url = "http://192.168.0.100:8000/selfie/v1/" + str(projectID) + "/image"
+		url = "http://pi3d.scem.ws/selfie/v1/" + str(projectID) + "/image"
 		
 		#Send the mask to the corresponding project ID database
 		files = {'url': open(maskDirectory, 'rb')}
